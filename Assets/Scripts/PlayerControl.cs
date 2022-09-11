@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    public static PlayerControl Instance;
+
     [SerializeField] private GameObject _maze;
     [SerializeField] private Transform _playerMoveCheck;
     [SerializeField] private float _moveSpeed = 5f;
@@ -11,7 +13,10 @@ public class PlayerControl : MonoBehaviour
     public Vector2 Destination { set { _destination = value; } }
 
     public Tile _currentTile;
-
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void Start()
     {
         _destination = transform.position;
@@ -21,7 +26,6 @@ public class PlayerControl : MonoBehaviour
         //If tile is walkable, move player
         if (Vector3.Distance(transform.position, _destination) > 0f)
         {
-            //transform.position = Vector3.MoveTowards(transform.position, _playerMoveCheck.position, _moveSpeed * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position, _destination, _moveSpeed * Time.deltaTime);
         }
     }

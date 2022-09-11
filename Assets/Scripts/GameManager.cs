@@ -9,8 +9,12 @@ public class GameManager : MonoBehaviour
     // Makes it easier to call from other objects. 
     public static GameManager Instance;
     [SerializeField] internal Transform _player;
+    [SerializeField] internal Transform _minotaur;
     public GameState CurrentGameState;
 
+
+    [Header("Accessors")]
+    [SerializeField] private ActorPositionsOnThisTurn _actorPosition;
     private void Awake()
     {
         Instance = this;
@@ -22,11 +26,25 @@ public class GameManager : MonoBehaviour
     }
     public void ChangeGameState(GameState newState)
     {
-        switch(newState)
+        CurrentGameState = newState;
+        switch (newState)
         {
             case GameState.PlayerTurn:
+                Debug.Log("Player turn started!");
                 break;
             case GameState.MinotaurTurn:
+                Debug.Log("Minotaur turn started!");
+                if (_minotaur == null)
+                {
+                    ChangeGameState(GameState.NewRound);
+                }
+                break;
+            case GameState.NewRound:
+                Debug.Log("New round started!");
+                _actorPosition.StorePositions();
+                break;
+            case GameState.Win:
+                Debug.Log("Level cleared!");
                 break;
             default:
                 break;
@@ -41,5 +59,7 @@ public class GameManager : MonoBehaviour
     {
         PlayerTurn = 0,
         MinotaurTurn = 1,
+        NewRound = 2,
+        Win = 3
     }
 }

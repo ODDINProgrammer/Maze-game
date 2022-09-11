@@ -16,5 +16,6 @@ public class Tile : MonoBehaviour
         {
             player.Destination = transform.position;
         }
+        GameManager.Instance.ChangeGameState(GameManager.GameState.MinotaurTurn);
     }
 }

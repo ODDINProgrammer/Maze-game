@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class ActorPositionsOnThisTurn : MonoBehaviour
 {
-    [SerializeField] private Vector2 _playerPos;
+    [SerializeField] private Vector2 _previousPlayerPos;
     public void StorePositions()
     {
-        _playerPos = GameManager.Instance._player.position;
+        _previousPlayerPos = GameManager.Instance._player.position;
+    }
+
+    public void UndoMove()
+    {
+        GameManager.Instance.CurrentGameState = GameManager.GameState.PlayerTurn;
+        PlayerControl.Instance.transform.position = _previousPlayerPos;
+        PlayerControl.Instance.Destination = _previousPlayerPos;
     }
 }

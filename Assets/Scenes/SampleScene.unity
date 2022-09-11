@@ -1997,7 +1997,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 608127612}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1346805190}
+        m_TargetAssemblyTypeName: ActorPositionsOnThisTurn, Assembly-CSharp
+        m_MethodName: UndoMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &608127612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5242,7 +5254,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
+  _minotaur: {fileID: 0}
   CurrentGameState: 0
+  _actorPosition: {fileID: 1346805190}
 --- !u!114 &1346805190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5255,7 +5269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fa25fa097b443b438d02dbb330554e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPos: {x: 0, y: 0}
+  _previousPlayerPos: {x: 0, y: 0}
 --- !u!1 &1388072104
 GameObject:
   m_ObjectHideFlags: 0

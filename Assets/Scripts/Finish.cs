@@ -6,6 +6,6 @@ public class Finish : Tile
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Win!!!"); 
+        GameManager.Instance.ChangeGameState(GameManager.GameState.Win);
     }
 }
