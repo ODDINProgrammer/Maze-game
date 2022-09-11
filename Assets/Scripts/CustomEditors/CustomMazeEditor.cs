@@ -13,5 +13,9 @@ public class CustomMazeEditor : Editor
         {
             FindObjectOfType<GenerateMaze>().GenerateNewMaze();
         }
+        if (GUILayout.Button("Delete maze tiles"))
+        {
+            FindObjectOfType<GenerateMaze>().DeleteAllTiles();
+        }
     }
 }
