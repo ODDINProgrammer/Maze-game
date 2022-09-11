@@ -10,7 +10,7 @@ public class GenerateMaze : MonoBehaviour
 
     private void Start()
     {
-        GenerateNewMaze();
+        //GenerateNewMaze();
     }
 
     public void GenerateNewMaze()
@@ -28,7 +28,7 @@ public class GenerateMaze : MonoBehaviour
             for (int y = 0; y <= _mapSize; y++)
             {
                 var newTile = Instantiate(_tilePrefab, new Vector2(x, y), Quaternion.identity, transform);
-                newTile.name = $"Tile {x} {y}";
+                newTile.name = $"{newTile.name} {x} {y}";
             }
         }
     }
