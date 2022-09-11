@@ -11,6 +11,11 @@ public class PlayerControl : MonoBehaviour
     public Vector2 Destination { set { _destination = value; } }
 
     public Tile _currentTile;
+
+    private void Start()
+    {
+        _destination = transform.position;
+    }
     private void Update()
     {
         //if (Vector3.Distance(transform.position, _playerMoveCheck.position) == 0f)
