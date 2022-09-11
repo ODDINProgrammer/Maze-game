@@ -55,6 +55,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void SkipTurn()
+    {
+        ChangeGameState(GameState.MinotaurTurn);
+    }
     public enum GameState
     {
         PlayerTurn = 0,
