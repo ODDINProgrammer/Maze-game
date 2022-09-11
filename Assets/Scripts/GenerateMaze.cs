@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GenerateMaze : MonoBehaviour
 {
-    [SerializeField] private int _mapSize;
+    [SerializeField] private Vector2 _mapSize;
     [SerializeField] private Tile _tilePrefab;
 
     private void Start()
@@ -23,9 +23,9 @@ public class GenerateMaze : MonoBehaviour
             }
         }
 
-        for (int x = 0; x <= _mapSize; x++)
+        for (int x = 0; x <= _mapSize.x; x++)
         {
-            for (int y = 0; y <= _mapSize; y++)
+            for (int y = 0; y <= _mapSize.y; y++)
             {
                 var newTile = Instantiate(_tilePrefab, new Vector2(x, y), Quaternion.identity, transform);
                 newTile.name = $"{newTile.name} {x} {y}";
