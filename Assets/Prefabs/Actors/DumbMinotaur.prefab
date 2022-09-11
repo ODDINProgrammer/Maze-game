@@ -79,3 +79,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
   _destination: {x: 0, y: 0}
+  _moveSpeed: 5
+  _tileChecker: {fileID: 4711188375331898896}
+--- !u!1 &4711188375331898896 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3335218981907579678, guid: 3b357b2833aed214ea4a5bafc0945c68, type: 3}
+  m_PrefabInstance: {fileID: 8009813718045443342}
+  m_PrefabAsset: {fileID: 0}
