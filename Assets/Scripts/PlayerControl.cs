@@ -18,44 +18,12 @@ public class PlayerControl : MonoBehaviour
     }
     private void Update()
     {
-        //if (Vector3.Distance(transform.position, _playerMoveCheck.position) == 0f)
-        //{
-        ReadUserInput();
-        //}
         //If tile is walkable, move player
         if (Vector3.Distance(transform.position, _destination) > 0f)
         {
             //transform.position = Vector3.MoveTowards(transform.position, _playerMoveCheck.position, _moveSpeed * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position, _destination, _moveSpeed * Time.deltaTime);
         }
-        ////If tile is not walkable, return moveChecker back to player position
-        //else if (!_playerMoveCheck.GetComponent<CheckTileWalkability>().CanMove())
-        //{
-        //    _playerMoveCheck.position = transform.position;
-        //}
-
-    }
-
-    
-    private void ReadUserInput()
-    {
-        
-        //if (Input.GetKeyDown(KeyCode.W))
-        //{
-        //    _destination += new Vector2(0f, 1f);
-        //}
-        //if (Input.GetKeyDown(KeyCode.S))
-        //{
-        //    _destination += new Vector2(0f, -1f);
-        //}
-        //if (Input.GetKeyDown(KeyCode.D))
-        //{
-        //    _destination += new Vector2(1f, 0f);
-        //}
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    _destination += new Vector2(-1f, 0f);
-        //}
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -10,6 +10,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (GameManager.Instance.CurrentGameState != GameManager.GameState.PlayerTurn) return;
         var player = FindObjectOfType<PlayerControl>();
         if (Vector3.Distance(transform.position, player.transform.position) <= 1f && _walkable)
         {
