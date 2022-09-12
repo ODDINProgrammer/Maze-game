@@ -5,47 +5,78 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // I want to use singleton here for convinience.
-    // Makes it easier to call from other objects. 
+    //  I want to use singleton here for convinience.
+    //  Makes it easier to call from other objects. 
+    #region GameManager singleton
     public static GameManager Instance;
-    [SerializeField] internal Transform _player;
-    [SerializeField] internal Transform _minotaur;
-    public GameState CurrentGameState;
-
-
-    [Header("Accessors")]
-    [SerializeField] private ActorPositionsOnThisTurn _actorPosition;
     private void Awake()
     {
         Instance = this;
     }
+    #endregion
+
+    [Header("Player")]
+    [SerializeField] internal Transform _player;
+    [Header("Minotaur")]
+    [SerializeField] internal Transform _minotaur;
+    [SerializeField] private int _minotaurTurnCount = 2;    // Defines how many moves minotaur makes during its turn
+    [SerializeField] private int _minotaurCurrentTurnCount; // Used for minotaur movement logic 
+    [Header("Current state")]
+    public GameState CurrentGameState;
+
+    [Header("Accessors")]
+    [SerializeField] private ActorPositionsOnThisTurn _actorPosition;
 
     private void Start()
     {
-        _player = FindObjectOfType<PlayerControl>().transform;
+        _minotaurCurrentTurnCount = _minotaurTurnCount;
     }
     public void ChangeGameState(GameState newState)
     {
         CurrentGameState = newState;
         switch (newState)
         {
+            #region Player turn
             case GameState.PlayerTurn:
                 Debug.Log("Player turn started!");
                 break;
+            #endregion
+
+            #region Minotaur turn
             case GameState.MinotaurTurn:
                 Debug.Log("Minotaur turn started!");
+                //  For levels without minotaur skip its turn
                 if (_minotaur == null)
                 {
                     ChangeGameState(GameState.NewRound);
+                    break;
                 }
+                //  Make as many moves as defined
+                _minotaurCurrentTurnCount--;
+                if (_minotaurCurrentTurnCount >= 0)
+                {
+                    BaseMinotaurLogic.Instance.MovementLogic();
+                    break;
+                }
+
+                ChangeGameState(GameState.NewRound);
                 break;
+            #endregion
+
+            #region New round
             case GameState.NewRound:
                 Debug.Log("New round started!");
                 _actorPosition.StorePositions();
+                _minotaurCurrentTurnCount = _minotaurTurnCount;
+                ChangeGameState(GameState.PlayerTurn);
                 break;
+            #endregion
+
+            #region Win
             case GameState.Win:
                 Debug.Log("Level cleared!");
                 break;
+            #endregion
             default:
                 break;
         }
@@ -64,6 +95,6 @@ public class GameManager : MonoBehaviour
         PlayerTurn = 0,
         MinotaurTurn = 1,
         NewRound = 2,
-        Win = 3
+        Win = 3,
     }
 }

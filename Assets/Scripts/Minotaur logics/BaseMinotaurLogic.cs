@@ -4,52 +4,68 @@ using UnityEngine;
 
 public class BaseMinotaurLogic : MonoBehaviour
 {
-    [SerializeField] protected Transform _player;
-    [SerializeField] protected Vector2 _destination;
-    [SerializeField] protected Vector2 _testedDestination;
-    [SerializeField] protected int _moveSpeed = 5;
+    #region Minotaur singleton
+    public static BaseMinotaurLogic Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+    #endregion
 
-    [SerializeField] protected GameObject _tileChecker;
+    [SerializeField] protected Transform _player;           //  Will be used to access player position for intelligent minotaur???
+    [SerializeField] protected Vector2 _destination;        //  Used to move minotaur to desired position
+    [SerializeField] protected Vector2 _testedDestination;  //  Used to check if minotaur can walk to this position
+    [SerializeField] protected int _moveSpeed = 5;          //  Used to define movement speed. Increase it for faster game flow
 
     private void Start()
     {
+        //  Set destination to current position to ensure that it stays in place
         _destination = transform.position;
+        //  Store itself to game manager
+        GameManager.Instance._minotaur = transform;
     }
 
     public virtual void MovementLogic() { }
     private void Update()
     {
-        if (Vector3.Distance(transform.position, _destination) > 0f)
+        if (GameManager.Instance.CurrentGameState == GameManager.GameState.MinotaurTurn)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _destination, _moveSpeed * Time.deltaTime);
+            //  If new destination was found, move there
+            if (Vector3.Distance(transform.position, _destination) > 0f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, _destination, _moveSpeed * Time.deltaTime);
+            }
+
+            //  If destination reached make another move
+            //  Will only take turn if any left, check GameManager -> GameState section
+            if (Vector3.Distance(transform.position, _destination) == 0f)
+            {
+                GameManager.Instance.ChangeGameState(GameManager.GameState.MinotaurTurn);
+            }
         }
     }
 
+    //  This method contains logic for checking if minotaur can move towards picked position
+    //  If it can't or it tries to step on something where there are no tile, it will find another tile 
     protected void CheckIfMoveIsPossible(Vector2 nextMovePos)
     {
-        //If tile doesnt exist or is not walkable pick another one.
+        //If tile doesnt exist pick another one.
         if (FindObjectOfType<GenerateMaze>().GetTileAtPosition(_testedDestination) == null)
         {
             MovementLogic();
         }
-        // _tileChecker.gameObject.SetActive(true);
-        //_tileChecker.transform.position = nextMovePos;
-
-        //if (_tileChecker.GetComponent<CheckTileWalkability>().CanMove() == false)
-        //{
-        //    MovementLogic();
-        //    return;
-        //}
 
         //Else if tile exists
         var tile = FindObjectOfType<GenerateMaze>().GetTileAtPosition(_testedDestination);
         //Check if tile is walkable 
         if (tile.Walkable)
+        {
             _destination = nextMovePos;
-        else if(!tile.Walkable) //Else find another one
+            return;
+        }
+        else if (!tile.Walkable) //Else find another one
         {
             MovementLogic();
         }
-        // _tileChecker.gameObject.SetActive(false);
     }
 }
