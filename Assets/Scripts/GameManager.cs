@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     [Header("Accessors")]
     [SerializeField] private ActorPositionsOnThisTurn _actorPosition;
 
+    [Header("Win screen")]
+    [SerializeField] private GameObject _winScreen;
+
     private void Start()
     {
         _minotaurCurrentTurnCount = _minotaurTurnCount;
@@ -75,6 +78,7 @@ public class GameManager : MonoBehaviour
             #region Win
             case GameState.Win:
                 Debug.Log("Level cleared!");
+                _winScreen.SetActive(true);
                 break;
             #endregion
 
