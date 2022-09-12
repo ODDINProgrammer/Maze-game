@@ -12,21 +12,24 @@ public class BaseMinotaurLogic : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] protected Transform _player;           //  Will be used to access player position for intelligent minotaur???
+    [SerializeField] internal Transform _player;            //  Will be used to access player position for intelligent minotaur???
     [SerializeField] protected Vector2 _destination;        //  Used to move minotaur to desired position
     [SerializeField] protected Vector2 _testedDestination;  //  Used to check if minotaur can walk to this position
     [SerializeField] protected int _moveSpeed = 5;          //  Used to define movement speed. Increase it for faster game flow
 
+    [SerializeField] protected bool _catchedPlayer = false;
     private void Start()
     {
         //  Set destination to current position to ensure that it stays in place
         _destination = transform.position;
         //  Store itself to game manager
         GameManager.Instance._minotaur = transform;
+
+        _player = GameManager.Instance._player;
     }
 
     public virtual void MovementLogic() { }
-    private void Update()
+    protected virtual void Update()
     {
         if (GameManager.Instance.CurrentGameState == GameManager.GameState.MinotaurTurn)
         {
@@ -40,6 +43,12 @@ public class BaseMinotaurLogic : MonoBehaviour
             //  Will only take turn if any left, check GameManager -> GameState section
             if (Vector3.Distance(transform.position, _destination) == 0f)
             {
+                if (_catchedPlayer)
+                {
+                    GameManager.Instance.ChangeGameState(GameManager.GameState.Lose);
+                    return;
+                }
+
                 GameManager.Instance.ChangeGameState(GameManager.GameState.MinotaurTurn);
             }
         }
@@ -67,5 +76,15 @@ public class BaseMinotaurLogic : MonoBehaviour
         {
             MovementLogic();
         }
+    }
+
+    //  Check for collision with player
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject == _player.gameObject)
+        {
+            _catchedPlayer = true;
+        }
+
     }
 }

@@ -77,10 +77,18 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Level cleared!");
                 break;
             #endregion
+
+            #region Lose
+            case GameState.Lose:
+                Debug.Log("You lost!!!");
+                break;
+            #endregion
             default:
                 break;
         }
     }
+
+    #region Button event methods
     public void ResetLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -90,11 +98,25 @@ public class GameManager : MonoBehaviour
     {
         ChangeGameState(GameState.MinotaurTurn);
     }
+    public void QuitGame()
+    {
+        Debug.Log("Quiting");
+        Application.Quit();
+    }
+
+    public void GoToMenu()
+    {
+        Debug.Log("Entering menu");
+        SceneManager.LoadScene("Menu");
+    }
+
+    #endregion
     public enum GameState
     {
         PlayerTurn = 0,
         MinotaurTurn = 1,
         NewRound = 2,
         Win = 3,
+        Lose = 4
     }
 }

@@ -22,6 +22,8 @@ public class Tile : MonoBehaviour
         if (Vector3.Distance(transform.position, player.transform.position) <= 1f && _walkable)
         {
             player.Destination = transform.position;
+            Debug.Log(transform.position - player.transform.position);
+            player._lastMove = transform.position - player.transform.position;
             GameManager.Instance.ChangeGameState(GameManager.GameState.MinotaurTurn);
         }
     }

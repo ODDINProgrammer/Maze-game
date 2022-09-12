@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField] private float _moveSpeed = 5f;              // Player speed 
     [SerializeField] private Vector2 _destination;               // Position to which player will move
+    [SerializeField] internal Vector2 _lastMove;
     public Vector2 Destination { set { _destination = value; } } // Destination property to provide access to other objects
 
    
